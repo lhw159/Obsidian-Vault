@@ -17,14 +17,56 @@ SE(3)공간에서 sparse diffrentiable rendring(희소 렌더링, 뼈 부분만 
 
 se(3) -> SE(3)라는 굽어 있는 공간을 특정 지점(보통 항등원)에서 '평평하게 펴서 만든 접평면
 
-## Intro
+# Intro
 Intensity-based 방식은 initial pose에 대해 제한된 범위와 민감도에 대한 한계가 있다
 [52] Mathias Unberath, Cong Gao, Yicheng Hu, Max Judish, Russell H Taylor, Mehran Armand, and Robert Grupp. The impact of machine learning on 2d/3d registration for image guided interventions: A systematic review and perspective. Frontiers in Robotics and AI, 8:716007, 2021. 1
 
 To this end, two methods for initial pose estimation are commonly deployed: **landmark-based localization** and **CNN-based pose regression.**
 
-landmark-based localization
+**landmark-based localization**
+Perspective-n-Point (PnP) 방식 (x=PX)
 [30] Vincent Lepetit, Francesc Moreno-Noguer, and Pascal Fua. EPnP: An accurate O(n) solution to the PnP problem. Inter national journal of computer vision, 81:155–166, 2009. 2 
 [31] ShiqiLi, ChiXu, andMingXie. Arobusto(n)solutiontothe perspective-n-point problem. IEEE transactions on pattern analysis and machine intelligence, 34(7):1444–1450, 2012. 2
 
-실제 실험에서 X-RAY 
+landmark-based localization 한계, 학습량
+While landmark localizers can be learned, only a few small labeled datasets exist for training deep networks [24, 41, 50]
+
+CNN을 통한 intraoperative x-ray에 대한 pose를 찾는 시도도 많았음
+
+==**본 연구에선 pre-op CT 기반 rendererd synthetic x-ray선에 대한 학습을 진행함. (그럼 각도와 위치는 어떻게? 무한대라면 어떻게 처리?)**==
+
+landmark-based는 synthetic x-ray선으로 학습해도 정확도가 떨어짐
+Even when supervised training data is augmented with synthetic X-rays, landmark-based localization and pose re gression fail to achieve consistent sub-millimeter accuracy [17, 35, 56].
+
+**intensity-based iterative**
+intensity losses (e.g. MSE, SSIM, NCC)때문에 실패할 수도
+
+==**본 연구에선 differentiable X-ray rendering을 사용해 tangent sapce에서 optimize 진행, sparse multiscale variant of loacl normalized cross correlation? <-잘 모르겠음**==
+
+**Contribution**
+self-supervised patient-specific CNN (learns through geodesic losses)을 통한 initial pose.
+differentiable X-ray renderer를 통한 optimization (maximizing multiscale image similarity computed oversparse image patches)
+
+
+# Relative Work
+**Intensity-based 2D/3D registraion** (밝기 기반)
+2D DRR과 실제 X-ray이미지와 'pxiel 단위의 명암 대조'를 통해 similarity를 측정.
+maximizing similarity를 위해 새로운 DRR를 쏘는 과정을 반복(camera pose (R,t) 수정).
+-> 픽셀 단위 이기에 미분 불가능 -> 가능성 있는 모든 방향에대해 DRR를 다시 쏴줘야 함->시간이 오래걸림
+==.>본 연구에선 self-supervised method for differentiable registration을 사용==
+
+
+**Landmark-based 2D/3D registration** (특징점 기반반)
+뼈의 특정 부위를 찍어서, 해당 부위가 정확히 맞도록 추정하는 PnP 방식.
+소수의 점만 비교하기에 속도는 빠르지만, 뼈의 어느 부분을 특징점을 잡을지에 대한 전문적인 지식이 필요, 피험자 마다 새롭게 마킹 해줘야함
+==.> 본 연구에선 landmark 사용 x, operate directly on patient-specific image intensiteis==
+
+**Camera pose regression**
+3D Eucledean coord에서 roation은 discontinous (359$\degree$->0$\degree$)
+고차원에서의 회전 표현을 통해 연속성 부여 가능 [57]
+neural network, point cloud registration에선 고차원 회전 표현을 통해 불연속 문제를 해결 가능 
+
+**Self-supervision**
+
+initial pose(self-supervised)->optimization()->
+diffrentible 
