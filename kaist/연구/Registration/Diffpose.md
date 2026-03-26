@@ -67,6 +67,16 @@ maximizing similarity를 위해 새로운 DRR를 쏘는 과정을 반복(camera 
 neural network, point cloud registration에선 고차원 회전 표현을 통해 불연속 문제를 해결 가능 
 
 **Self-supervision**
+CNN 기반 pose estimation. 무한대의 training data (unlimited synthetic training data)를 생성하기 위해 fast differentialbe X-ray renderer 사용
+
+
+# Preliminaries
+**Differentiable rendering of synthetic X-rays**
+보통 X-ray 이미지를 투영할 땐 선형적인 감쇠율 (linear attenuation)을 사용한다[48] (scattering, beam hardening같은 2차 효과를 무시하고) ==good note(Diffpose) 참고==[22]
+
+Euler angle, quaternion은 gimbal lock, 불연속 같은 문제가 있음.
+고차원의 표현방법 사용-> rotation과 translation을 분리하여 표현하지 않고, tangent sapce(se(3) which is isomorphic $R^{3}\times R^{3}$, translation 벡터에 대해 axis-angle 표현하는)[38]
+
 
 initial pose(self-supervised)->optimization()->
 diffrentible 
