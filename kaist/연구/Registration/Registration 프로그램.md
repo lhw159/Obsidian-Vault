@@ -16,7 +16,9 @@ calibration폴더 내 InitialTxf, InitialTxf_Smoothed 생성
 Txfmats/fem or tib 폴더 내 결과 파일
 
 
-
+# Optimization 원리
+PSO (입자 군집 최적화, Particle Swarm Optimization), SSIM 기반
+**PSO** : 새떼가 먹이를 찾아가는 행동을 모방한 알고리즘. 먼저, 무작위 방향으로 여러번 쏘아대고 (가상 이미지를 만들어 내고), 그중 가장 좋은 우
 
 ## 왜 registration을 하는가?
 임상이나 수술 환경에선 고 자유도 관절 데이터가 필요하다 
