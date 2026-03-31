@@ -80,3 +80,32 @@ Euler angle, quaternion은 gimbal lock, 불연속 같은 문제가 있음.
 
 initial pose(self-supervised)->optimization()->
 diffrentible 
+
+# Method
+$I$:  x-ray 이미지 (가상, 현실 둘 다) 
+$\mathcal{E} : I \rightarrow \mathbb{R}^d\times\mathbb{R}^3)$ : x-ray를 Euclidean 파라미터화 하는 encoder network (CNN 학습 대상, 3차원(tlanslation)+3차원(rotation)=6차원, se(3) Lie )
+$\mathcal{P}$ : 어느 camera pose T에서도 CT volume의 가상 x-ray선 생성하는 미분 가능 renderer (DiffDRR[22])
+## 4.1. Training Pose Estimation Networks 
+**Sampling synthetic X-ray poses.**
+![[Pasted image 20260331191610.png|400]]
+$\mathbf{T}_{iso}$ (isocenter pose): 환자의 뼈 3d 형상을 정면으로 봐라보는 방향. pertubation의 기준이 되는 방향, isocenter pose를 기준으로 랜덤하게 pertubation (normal distribution을 따라서) 을 주어 학습 데이터 형성. 
+그렇게 형성한 Lie algebra내에서의 pertubation을 $\mathbb{R}^d\times\mathbb{R}^3\rightarrow SE(3)$ 공간 이동 후 ($\Delta \mathbf{T}$) 카메라 포즈 변경 $\mathbf{T}=\Delta \mathbf{T}\bullet \mathbf{T}_{iso}$
+
+$t_{iso}$ (isocenter translation) = $(b_x\Delta x,b_y\Delta y,b_z\Delta z)/2$ : 3d 형상의 정 중앙, (b : voxel의 개수, $\Delta$ : voxel 당 mm 길이) 
+
+
+**Synthetic pose regression pretraining.**
+random camera pose $\mathbf{T}\in SE(3)$, 로 투영한 가상 X-ray 이미지 $I=\mathcal{P}(\mathbf{T})\bullet V$
+가상 이미지로 부터 추정한 pertubation $\Delta \mathbf{\hat{T}} \overset{\Delta}{=} \mathcal{E}(I)$ 로 추정한 카메라 포즈 $\mathbf{\hat{T}}=\Delta \mathbf{\hat{T}}\bullet \mathbf{T}_{iso}$ 
+$\mathbf{\hat{T}}$로 추정한 새로운 가상 이미지 $\hat{I}=\mathcal{{P}}(\mathbf{\hat{T}})\bullet V$
+$I$와 $\hat{I}$, $\mathbf{T}$ 와 $\mathbf{\hat{T}}$의 비교를 통한 $\mathcal{E}$ weight 최적화
+
+## 4.2. Registration Losses
+**Geodesic pose regression losses**
+Geodesic : 두 지점 간 가장 짧은 거리
+$R_{A},R_{B}$사이의 각 차이
+$$\begin{aligned}d_{\theta}(R_{A},R_{B})&=arccos(\frac{trace(R_{A}^{T}R_{B})-1}{2})\\
+&=||log(R_{A}^{T}R_{B})||\end{aligned}
+$$
+여기서 $R_{A}^{T}R_{B}$는 두 회전 행렬의 상대적 각 차이 (만약 둘이 같다면 Identity가 나옴)
+$trace(R_{A}^{T}R_{B})=1+2cos\theta$ : trace(A)= A의 eigen value들의 합, R의 eigen value는 $1, e^{i\theta}, e^{-i\theta}$ .

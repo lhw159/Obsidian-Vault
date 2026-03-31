@@ -1,4 +1,19 @@
-RawImageConverter(x-ray이미지 처리)-> markerPoseGenerator (내일 확인)
+RawImageConverter(x-ray이미지 처리)
+D:\samsung\results\
+  └─ s030\
+      └─ right\
+          └─ downhill\
+              ├─ trial_01\
+              │   ├─ Images\          ← 밝기 보정된 TIFF (C1, C2 쌍)
+              │   ├─ Images_musica\   ← MUSICA 향상된 TIFF (C1, C2 쌍)
+              │   ├─ Calibration\     ← 엔코더 txt, time.csv
+              │   └─ Txfmats\         ← (빈 폴더, 후속 처리용)
+              └─ trial_02\
+                  └─ (동일 구조)
+
+
+markerPoseGenerator
+
 
 shapeinitial파일 results/s0##/left or right/ 에 넣기
 
