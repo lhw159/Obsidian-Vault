@@ -109,3 +109,4 @@ $$\begin{aligned}d_{\theta}(R_{A},R_{B})&=arccos(\frac{trace(R_{A}^{T}R_{B})-1}{
 $$
 여기서 $R_{A}^{T}R_{B}$는 두 회전 행렬의 상대적 각 차이 (만약 둘이 같다면 Identity가 나옴)
 $trace(R_{A}^{T}R_{B})=1+2cos\theta$ : trace(A)= A의 eigen value들의 합, R의 eigen value는 $1, e^{i\theta}, e^{-i\theta}$ .
+$log(R_{A}^{T}R_{B})$ : logarithm map[26], $(R_{A}^{T}R_{B})$는 두 회전 행렬의 상대 회전. 하지만 행렬 형태. 우리가 아는 회전 행렬의 exponential 표현 $R=e^{\theta \hat{w}}$는 R에 대한 회전 축 w, 그에대한 회전 각도 theta의 tangent map so(3)상에서의 표현 $\theta \hat{w}$를 SO(3)로 보내는 공간 이동 기법 e(~)->SO(3). 그 반대의 lorarithm map $||log(R_{A}^{T}R_{B})||=\frac{1}{2}trace(S^{T}S)$ $,(SO(3)\times SO(3) \rightarrow \mathbb{R}^{+})$은 두 회전 행렬의 상대 회전 차를 so(3)로 보내 geodesic loss(각도차)를 구하는것
