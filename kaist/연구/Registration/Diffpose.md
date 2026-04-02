@@ -150,7 +150,7 @@ $$\text{Loss}=-\mathcal{L}_{\text{mNCC}}+\lambda_{1}\mathcal{L}_{log}(\mathbf{T}
 위의 loss는 CNN 학습 용. test-time optimization (실 수술 상황)에서 학습된 CNN을 통해 initial pose를 맞췄다면, 이젠 미세 조정 단계.
 
 Sparse differnetiable rendering : 이미지의 특정 점들에 대해 patch를 설정하여 비교하는 기법? patch의 위치는 CNN의 최종 activation map 기준 (뼈가 있을)확률이 제일 높은 점들을 지정, 그 점들을 중점으로 patch 형성, patch 위치에 대한 $I$와 $\hat{I}$비교하며 미세 조정.
-$$\frac{\partial L}{\partial \boldsymbol{\xi}} = \frac{\partial L}{\partial \mathbf{I}_{synth}} \cdot \frac{\partial \mathbf{I}_{synth}}{\partial \mathbf{T}} \cdot \frac{\partial \mathbf{T}}{\partial \boldsymbol{\xi}}$$
-
-
+$$\mathcal{L}=\frac{\partial L}{\partial \boldsymbol{\xi}} = \frac{\partial L}{\partial \mathbf{I}_{synth}} \cdot \frac{\partial \mathbf{I}_{synth}}{\partial \mathbf{T}} \cdot \frac{\partial \mathbf{T}}{\partial \boldsymbol{\xi}}$$
+(픽셀에 따른 loss의 변화) x (카메라 포즈 변경에 대한 픽셀의 변화) x (벡터 변화에 대한 카메라 포즈 변화)
+$$\xi_{i+1}=\xi_{i}-\alpha \mathcal{L}$$
 ## 4.3. Test-Time Optimization
