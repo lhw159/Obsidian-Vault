@@ -104,9 +104,37 @@ $I$와 $\hat{I}$, $\mathbf{T}$ 와 $\mathbf{\hat{T}}$의 비교를 통한 $\math
 **Geodesic pose regression losses**
 Geodesic : 두 지점 간 가장 짧은 거리
 $R_{A},R_{B}$사이의 각 차이
-$$\begin{aligned}d_{\theta}(R_{A},R_{B})&=arccos(\frac{trace(R_{A}^{T}R_{B})-1}{2})\\
-&=||log(R_{A}^{T}R_{B})||\end{aligned}
+$$
+\begin{aligned}
+d_{\theta}(R_{A},R_{B})&=\text{arccos}(\frac{trace(R_{A}^{T}R_{B})-1}{2})\\
+&=||\text{log}(R_{A}^{T}R_{B})||
+\end{aligned}
 $$
 여기서 $R_{A}^{T}R_{B}$는 두 회전 행렬의 상대적 각 차이 (만약 둘이 같다면 Identity가 나옴)
 $trace(R_{A}^{T}R_{B})=1+2cos\theta$ : trace(A)= A의 eigen value들의 합, R의 eigen value는 $1, e^{i\theta}, e^{-i\theta}$ .
 $log(R_{A}^{T}R_{B})$ : logarithm map[26], $(R_{A}^{T}R_{B})$는 두 회전 행렬의 상대 회전. 하지만 행렬 형태. 우리가 아는 회전 행렬의 exponential 표현 $R=e^{\theta \hat{w}}$는 R에 대한 회전 축 w, 그에대한 회전 각도 theta의 tangent map so(3)상에서의 표현 $\theta \hat{w}$를 SO(3)로 보내는 공간 이동 기법 e(~)->SO(3). 그 반대의 lorarithm map $||log(R_{A}^{T}R_{B})||=\frac{1}{2}trace(S^{T}S)$ $,(SO(3)\times SO(3) \rightarrow \mathbb{R}^{+})$은 두 회전 행렬의 상대 회전 차를 so(3)로 보내 geodesic loss(각도차)를 구하는것
+
+위 과정을 transpose matrix $\mathbf{T}\in SE(3)$ 에 적용한다면 ==**geodesic loss function**==은 다음과 같이,
+$$\mathcal{L}_{log}(\mathbf{T}_{A},\mathbf{T}_{B})=||\text{log}((\mathbf{T}_{A}^{-1}\mathbf{T}_{B})||$$
+$$(\,\,\mathbf{T} = \exp(\boldsymbol{\xi})\,\,, \;\;d\,exp_{\xi}(\xi)=\mathbf{T}\cdot(J_{l}(\xi)\delta\xi)^\wedge\,\,)
+$$
+
+실거리 차이 ==**geodesic distance**==
+초점거리 $f$에 따른 각도 차이 기반 arc length:
+$$d_{\theta}(R_{A},R_{B};f)=\frac{f}{2}d_{\theta}(R_{A},R_{B})$$
+translation distance $d_{t}(t_{A},t_{B})=||t_{A}-t_{B}||$
+
+둘을 결합한 geodesic distance
+$$\mathcal{L}_{geo}(\mathbf{T}_{A},\mathbf{T}_{B};f)=\sqrt{d_{\theta}^{2}(R_{A},R_{B};f)+d_{t}^{2}(t_{A},t_{B})}$$==**Multiscale NCC**==
+NCC(Normalized cross correlation) : Z-scoring을 한 image에 대한 similarity를 측정하는 metric 
+$$
+\begin{aligned}
+\text{NCC}(I_{A},I_{B}) &=\frac{1}{NM}\sum^{N}_{i=1}\sum^{M}_{j=1}Z_{A}[i,j]Z_{B}[i,j] \\\\
+Z&=\frac{(I-\mu(I))}{\sigma(I)}
+\end{aligned}
+$$
+$\text{NCC} \leq 1$, 두 이미지가 같으면 최대값. Normalizing (Z-scoring)을 하기 때문에 이미지의 픽셀 밝기의 절대값은 중요하지 않음, 이미지 상 패턴의 차이가 중요.
+NCC는 local과 global로 나뉘는데, 패치 단위로 차이를 비교하는게 local, 전역의 평균을 비교하는게 global. 본 연구에선 여러 스케일의 patch(multiscale patch)를 이용해 두 이미지를 비교하는 multiscale NCC $\mathcal{L}_{\text{mNCC}}$를 활용
+
+==**Composite pretraining loss**==
+$$\text{Loss}=-\mathcal{L}_{\text{mNCC}}+\lambda_{1}\mathcal{L}_{log}(\mathbf{T},\mathbf{\hat{T}})+\lambda_{2}\mathcal{L}_{geo}(\mathbf{T},\mathbf{\hat{T}}).$$
