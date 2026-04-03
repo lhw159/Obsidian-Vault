@@ -100,7 +100,7 @@ random camera pose $\mathbf{T}\in SE(3)$, 로 투영한 가상 X-ray 이미지 $
 $\mathbf{\hat{T}}$로 추정한 새로운 가상 이미지 $\hat{I}=\mathcal{{P}}(\mathbf{\hat{T}})\bullet V$
 $I$와 $\hat{I}$, $\mathbf{T}$ 와 $\mathbf{\hat{T}}$의 비교를 통한 $\mathcal{E}$ weight 최적화
 
-## 4.2. Registration Losses
+## 4.2. Registration Losses (Pre-op)
 ![[Pasted image 20260402191249.png|600]]
 ==**Geodesic pose regression losses**==
 Geodesic : 두 지점 간 가장 짧은 거리
@@ -124,7 +124,7 @@ $$
 왜 미분이 필요한가. 기존의 $\mathbf{T}\in SE(3)$는 덧셈에 열려있는 상태 (open, close 의미: **membership rule** 특정 연산을 했을 때, 그 결과가 여전히 그 집합에 머물면 닫혀있는 상태) 이를 평평한 tangent map (isopose에 대한 tangent map) 상에선 자유롭게 더할 수 있고, 즉 쉽게 Gradient를 통한 update가 가능. 
 
 
-실거리 차이 ==**geodesic distance**==
+실거리 차이 ==**geodesic distance (double geodesic loss)**==
 초점거리 $f$에 따른 각도 차이 기반 arc length:
 $$d_{\theta}(R_{A},R_{B};f)=\frac{f}{2}d_{\theta}(R_{A},R_{B})$$
 translation distance $d_{t}(t_{A},t_{B})=||t_{A}-t_{B}||$
@@ -153,4 +153,11 @@ Sparse differnetiable rendering : 이미지의 특정 점들에 대해 patch를 
 $$\mathcal{L}=\frac{\partial L}{\partial \boldsymbol{\xi}} = \frac{\partial L}{\partial \mathbf{I}_{synth}} \cdot \frac{\partial \mathbf{I}_{synth}}{\partial \mathbf{T}} \cdot \frac{\partial \mathbf{T}}{\partial \boldsymbol{\xi}}$$
 (픽셀에 따른 loss의 변화) x (카메라 포즈 변경에 대한 픽셀의 변화) x (벡터 변화에 대한 카메라 포즈 변화)
 $$\xi_{i+1}=\xi_{i}-\alpha \mathcal{L}$$
-## 4.3. Test-Time Optimization
+## 4.3. Test-Time Optimization (Intra-op)
+위에서 언급한 Sparse differentiable rendering을 통해 실시간 미세 조정
+$\mathbf{\hat{T}}$을 미세 조정 하면서 $\mathbf{\hat{I}}=\mathcal{P}(\mathbf{\hat{T}})\bullet \mathbf{V}$ 를 통해 업데이트
+
+## 4.4. Landmark-Based Evaluation
+본 연구에선 landmark 를 사용 안함. 평가요응로만 mTRE 따로 적용,
+**mTRE (mean Target Registration Error)** : 미리 설정한 m 3D anatomical landmark $M \in \mathbb{R^{3\times m}}$에 대한 error, 이미 intrinsic matrix $\mathbf{K}\in\mathbb{R}^{3\times 3}$ 을 알고 있으니(카메라의 특성)을 알고 있으니 M에 대한 prospective projection은 쉽게 계산 가능. mTRE는 다음과 같이 계산
+$$\text{mTRE}(\mathbf{T},\mathbf{\hat{T}})=\frac{1}{m}||\mathbf{K}([R|t]-[\hat{R}|\hat{t}])M||_{F}$$ 
