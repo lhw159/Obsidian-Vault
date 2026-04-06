@@ -161,3 +161,92 @@ $\mathbf{\hat{T}}$을 미세 조정 하면서 $\mathbf{\hat{I}}=\mathcal{P}(\mat
 본 연구에선 landmark 를 사용 안함. 평가요응로만 mTRE 따로 적용,
 **mTRE (mean Target Registration Error)** : 미리 설정한 m 3D anatomical landmark $M \in \mathbb{R^{3\times m}}$에 대한 error, 이미 intrinsic matrix $\mathbf{K}\in\mathbb{R}^{3\times 3}$ 을 알고 있으니(카메라의 특성)을 알고 있으니 M에 대한 prospective projection은 쉽게 계산 가능. mTRE는 다음과 같이 계산
 $$\text{mTRE}(\mathbf{T},\mathbf{\hat{T}})=\frac{1}{m}||\mathbf{K}([R|t]-[\hat{R}|\hat{t}])M||_{F}$$ 
+## 4.4. Implementation Details
+**Pretraining**
+
+| **구분**     | **세부 내용**                                                                   |
+| ---------- | --------------------------------------------------------------------------- |
+| **모델 구조**  | **ResNet18** 백본 + 2개의 **FC Layer** (회전 $R^3$ , 이동 $R^3$ 각각 출력)              |
+| **학습 데이터** | 실시간 생성된 **Synthetic X-ray** (총 1,000,000장)                                  |
+| **학습 방식**  | 각 환자별로 처음부터 새로 학습 (**Patient-specific** )                                   |
+| **최적화 도구** | **Adam** (Warm-up 포함) , 최대 학습률 $1 \times 10^{-3}$                           |
+| **스케줄러**   | **Cosine learning rate scheduler**                                          |
+| **하드웨어**   | **NVIDIA A6000 GPU** (배치 사이즈 8)                                             |
+| **특이 사항**  | **Batch Normalization** 대신 **Group Normalization** 사용 (작은 배치 사이즈 때문)        |
+| **소요 시간**  | 약 12시간 (**12 hours** )                                                      |
+| **손실 함수**  | $\lambda_1 = \lambda_2 = 10^{-2}$ , **Multiscale NCC** (패치 크기 13 및 256(전체)) |
+
+**Test-time optimization**
+
+| **구분**       | **세부 내용**                                         |
+| ------------ | ------------------------------------------------- |
+| **목적**       | 초기 포즈 추정치의 정밀화 (**Refinement** )                  |
+| **손실 함수**    | **Sparse Multiscale NCC** (100개 패치, 패치 크기 13)     |
+| **파라미터화**    | **$\mathfrak{se}(3)$** 공간 기반 (미분 가능성 확보)          |
+| **최적화 도구**   | **Adam** 오차 역전파 기반 포즈 업데이트                        |
+| **학습률 (회전)** | $7.5 \times 10^{-3}$ (**Rotational components** ) |
+| **학습률 (이동)** | $7.5 \times 10^0$ (**Translational components** ) |
+| **반복 횟수**    | 250회 (**Iterations** )                            |
+| **스케줄러**     | **Step Decay** (25회마다 0.9배 감소)                    |
+
+
+# Experiments
+## 5.1. Datasets
+카메라 포즈(intrinsic matrix)와 평가용 expert annotation을 제공하는 2개의 공개 데이터 셋 사용 
+**DeepFluoro dataset** (6 patient (for each 1CT, 24-111x-rays), pelvic)
+모델 검증용.
+**Ljubljana dataset** (뇌혈관 수술 받은 환자 10명, )
+혈관 검증에도 모델 적용 가능한지 테스트 용 (범용성 확인). 기존 모델의 하이퍼파라미터 변경하지 않고 적용
+**raw image 처리**
+연구에서 사용한 diffPose renderer에 맞게 intraoperatively measure X-ray 이미지 처리
+Voxel에 의해 흡수된 에너지 총량 이미지
+$$I_{\mu}(p)=\log I_0 - \log I(p)$$
+initial intensity는 이미지상 intensity가 max인 pixel 기준으로 설정 $I_{0} = \text{max}\,I(r)$
+collimator 현상을 없애기 위해 각 모서리 50 pixels 단위로 crop
+
+본 연구의 데이터 셋들을 보면, CT데이터와 X-RAY이미지가 다 다른날 찍은 것들 -> test set leakage 예방
+
+## 5.2. Baseline Methods
+여러 2D/3D registraion 모델들이랑 비교
+
+**supervised pose regresser**
+PoseNet, 
+
+**Unsupervised intensity based registration methods**
+xReg : PA(PosteriorAnterior) pose 에서 gradient-free optimization 루틴 사용, path-based image-gradient NCC similarity mertric 사용
+
+DiffDRR :  (아래 참고) CNN 초기화 없이 본 연구에서 사용한 같은 LR과 image-based loss 활용해서 pose 추정
+
+**PnP**
+U-Net : 2D X-ray 이미지에서 특정 랜드마크 추출 하도록 학습, 카메라 포즈 추정.
+#### DiffDRR 역할: '미분 가능한 디코더'
+**DiffPose** 프레임워크 내에서 **DiffDRR** 은 다음과 같은 핵심 역할
+- **학습 단계 (Pretraining):** 환자의 $3D$ **CT** 로부터 $100$ 만 장의 가상 엑스레이(**DRR**) 를 초고속으로 생성하여 **CNN** 을 교육
+- **최적화 단계 (Inference):** 현재 포즈 $\hat{\mathbf{T}}$ 를 받아 실시간으로 패치 이미지(**Sparse DRR**) 를 그림. 이 렌더링 과정이 **PyTorch** 의 자동 미분(**Auto-grad**) 과 호환되기 때문에, 이미지 오차로부터 포즈 변화량까지의 '미분 길' 열림.
+
+
+## 5.3. Results
+**DeepFluoro dataset**
+![[Pasted image 20260406154356.png|600]]
+123
+![[Pasted image 20260406155631.png|500]]
+PnP-Regularizer : X-reg+PnP
+
+**Ljubljana dataset.**
+뇌혈관의 경우 PnP는 부족한 Data set으로 인해 제대로 학습이 안됨
+![[Pasted image 20260406161110.png|600]]
+DiffPose 에서 좋은 성능 보임
+
+
+**Ablation Studies**
+![[Pasted image 20260406160240.png|400]]
+Test-time optimizer가 큰역할, 각 loss들도 큰 비중을 차지 하는 것을 알 수 있음.
+
+
+# Discussion
+**Limitation and future work**
+현재는 뼈 전체를 하나의 rigid body로 보고 정합을 진행하지만, 추후 piecewise rigid transformation으로 확장 가능함. (여러 뼈를 구분해서 정합)
+현재 학습 속도가 너무 느리지만, fine tuning을 통해 속도 높일 수 있을거라 기대
+
+**Contribution**
+본 연구는 최초로 자가 지도 (unsupervised) intraoperative 2D/3D registration 프레임 워크를 제안하고, 검증했다는 점에서 의의가 있음. 또한 뼈 정합에서 나아가 뇌 혈관 같은 미세 영역에 대해서도 적용 가능성을 보였음
