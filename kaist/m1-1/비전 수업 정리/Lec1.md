@@ -31,11 +31,14 @@ multihead => Input의 화질은 낮추더라도 (split), 보는 관점의 다양
 
 # How to use Attention/Transformers for Vision
 1. CNN 구조(ResNet 같은) 중간에 self attention block 추가->모델 여전히 cnn
+
 2. Local attention 사용
  ![[Pasted image 20260416193317.png|400]]
+
 3. Standard Transformer on Pixels
 ![[Pasted image 20260416193431.png|400]]
 너무 큰 용량, lose fine detail
+
 4. Standard Transformer on Patches, Vision Transformer ViT
 ![[Pasted image 20260416193529.png|400]]
 CNN적용 없이 Patch 단위의 이미지들을 펼쳐서 Transformer 적용
@@ -45,6 +48,7 @@ ViT에 계층적 구조(hierarchical)는 어떻게?
 **PVT**
 ![[Pasted image 20260416193727.png|400]]
 이미지 사이즈를 줄이고, 그만큼 채널을 늘리며 resolution 유지
+
 
 **Swin Transformer** (Shifted Window Attention)
 ![[Pasted image 20260416194146.png|300]]
