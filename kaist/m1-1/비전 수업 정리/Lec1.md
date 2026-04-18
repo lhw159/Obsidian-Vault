@@ -42,7 +42,7 @@ multihead => Input의 화질은 낮추더라도 (split), 보는 관점의 다양
 4. Standard Transformer on Patches, Vision Transformer ViT
 ![[Pasted image 20260416193529.png|400]]
 CNN적용 없이 Patch 단위의 이미지들을 펼쳐서 Transformer 적용
-
+cls (**전체 시퀀스의 정보를 요약** 하기 위해 사용하는 특별한 토큰, transformer에서 모든 tocken들과 상호작용)
 
 ViT에 계층적 구조(hierarchical)는 어떻게?
 **PVT**

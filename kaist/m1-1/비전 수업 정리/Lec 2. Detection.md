@@ -54,3 +54,6 @@ B: box 수, C: 예측할 Class 수
 
 
 **DETR, YOLOS, DINO**
+
+
+FOCAL LOSS
