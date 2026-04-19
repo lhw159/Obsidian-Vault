@@ -54,7 +54,7 @@ hyperparameter, data augmentation 부분 보완도 있음
 **BYOL (Bootstrap Your Own Latent)**
 Negative 없이 학습하자
 ![[Pasted image 20260420022602.png|500]]
-query, key line이 서로 다름 (비대칭)-> Model Collapse(모델 붕괴) 방지
+query, key line이 서로 다름 (비대칭)-> Model Collapse(모델 붕괴, 어짜피 다 같은 (positive)니깐 굳이 학습할 필요 없이 대충 파라미터 값 내는 현상) 방지
 
 
 
