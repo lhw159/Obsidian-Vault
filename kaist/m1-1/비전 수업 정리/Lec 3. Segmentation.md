@@ -78,6 +78,14 @@ image embedding=> 입력한 이미지 인풋
 prompt tokens=> 유저가 설정한 box, text, point
 output tocken => DETR에서 Query tocken이라고 생각
 
+![[Pasted image 20260420141427.png|600]]
+image encoder 구조
+
+![[Pasted image 20260420143031.png|400]]
+Prompt encoder
+
+![[Pasted image 20260420154314.png]]
+
 
 **SAM2**
 ![[Pasted image 20260419025235.png|600]]

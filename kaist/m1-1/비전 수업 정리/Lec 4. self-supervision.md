@@ -86,3 +86,68 @@ query, key line이 서로 다름 (비대칭)-> Model Collapse(모델 붕괴, 어
 
 centering, sharpening (low temperature) 를 통해 collapse 방지
 $$\text{Temperature}: P_i=\frac{\text{exp}(z_i /\tau)}{\sum_j \text{exp}(z_j /\tau)}$$
+
+
+[ Image X ]
+                       |
+        (Crop & Generate Augmented Views)
+                       |
+       +---------------+---------------+
+       |                               |
+[Local View V_s]               [Global View V_t]  <-- (DINO 슬라이드 7장 차용)
+[Box Prompt B_s]               [Box Prompt B_t]   <-- (SAM 슬라이드 4장 차용)
+       |                               |
+       v                               v
+==============                   ==============
+| Student SAM|                   | Teacher SAM|
+|  (Param \theta)| <--- (EMA) ---- |  (Param \phi)|
+==============                   ==============
+       |                               |
+       v                               v
+  [Output z_s, p_s]              [Output z_t, p_t]
+       |                               |
+       +------------> Loss <-----------+ (sg)
+            (MoCo Contrastive or DINO CE)
+
+
+
+[ Original Image X ]  &  [ Point Grid P ]
+                               |
+            +------------------+------------------+
+            |                                     |
+    (Augmentation T1)                     (Augmentation T2)
+            |                                     |
+            v                                     v
+   [ View 1: X1, P1 ]                    [ View 2: X2, P2 ]
+            |                                     |
+            v                                     v
+=========================             =========================
+|     Student SAM       |             |     Teacher SAM       |
+|    (Params: \theta)   | <--(EMA)--- |     (Params: \phi)    |
+|-----------------------|             |-----------------------|
+| 1. Image Enc (E_I)    |             | 1. Image Enc (E_I)    |
+| 2. Prompt Enc (E_P)   |             | 2. Prompt Enc (E_P)   |
+| 3. Mask Dec (D_M)     |             | 3. Mask Dec (D_M)     |
+=========================             =========================
+            |                                     |
+      +-----+-----+                         +-----+-----+
+      |           |                         |           |
+      v           v                         v           v
+  [Logits p_s] [Embed z_s]              [Logits p_t] [Embed z_t]
+      |           |                         |           |
+      |           |                         |           +-----> [ Memory Queue K ]
+      |           |                         |                           |
+      |           +-------------------------|---------------------------+
+      |                                     |                           |
+      |   +-----------------------------+   |   +-------------------+   |
+      +-> | L_DINO (Self-Distillation)  | <-+   | L_MoCo (InfoNCE)  | <-+
+          |      (w/ Centering)         |       |                   |
+          +-----------------------------+       +-------------------+
+                         |                                |
+                         +---------------+----------------+
+                                         |
+                                         v
+                             [ Total Objective L ]
+                                         |
+                                         v
+                            (Update \theta via Gradient)
