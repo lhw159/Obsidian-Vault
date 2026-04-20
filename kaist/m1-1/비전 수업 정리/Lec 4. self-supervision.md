@@ -71,3 +71,18 @@ query, key line이 서로 다름 (비대칭)-> Model Collapse(모델 붕괴, 어
 
 **전체 framework 비교**
 ![[Pasted image 20260420023026.png|500]]
+
+
+**Barlow Twins**
+![[Pasted image 20260420125720.png|500]]
+똑같은 encoder를 통해 임베딩 벡터 $Z^A, Z^B$형성, 둘의 cross correlation을 Identity matrix 형태가 되도록 학습
+
+
+
+
+**DINO**
+![[Pasted image 20260420135846.png|500]]
+학생과 선생의 관계. 학생의 encoder를 통해 학습을 하고, 선생은 학생의 encoder를 모방하여 정답을 배출. 
+
+centering, sharpening (low temperature) 를 통해 collapse 방지
+$$\text{Temperature}: P_i=\frac{\text{exp}(z_i /\tau)}{\sum_j \text{exp}(z_j /\tau)}$$
