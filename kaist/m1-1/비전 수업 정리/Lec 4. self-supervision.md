@@ -88,66 +88,26 @@ centering, sharpening (low temperature) 를 통해 collapse 방지
 $$\text{Temperature}: P_i=\frac{\text{exp}(z_i /\tau)}{\sum_j \text{exp}(z_j /\tau)}$$
 
 
-[ Image X ]
-                       |
-        (Crop & Generate Augmented Views)
-                       |
-       +---------------+---------------+
-       |                               |
-[Local View V_s]               [Global View V_t]  <-- (DINO 슬라이드 7장 차용)
-[Box Prompt B_s]               [Box Prompt B_t]   <-- (SAM 슬라이드 4장 차용)
-       |                               |
-       v                               v
-==============                   ==============
-| Student SAM|                   | Teacher SAM|
-|  (Param \theta)| <--- (EMA) ---- |  (Param \phi)|
-==============                   ==============
-       |                               |
-       v                               v
-  [Output z_s, p_s]              [Output z_t, p_t]
-       |                               |
-       +------------> Loss <-----------+ (sg)
-            (MoCo Contrastive or DINO CE)
+**BEIT**
+![[Pasted image 20260427162808.png|500]]
+이미지 복구형 모델. 다만 픽셀 단위 복구가 아닌 'token'을 대상으로 복구
+원본이미지를 tokenizer를 통과시켜 token화, 그리고 이미지 패치에 대해 마스킹 처리 후, 마스킹 영역을 토큰을 기준으로 복구.
+단순 픽셀은 정보가 풍부하지 않음(주변의 픽셀들이랑 크게 차이 안 나니깐.)=> token화를 통해 고 차원화
 
 
+**SimMIM**
+![[Pasted image 20260427163511.png|500]]
+![[Pasted image 20260427163641.png|400]]
+기존의 'pixel'단위로 학습하되, 그냥 간단한 구조로.
+복잡한 decoder 대신 한층의 'One-later prediction head'사용
 
-[ Original Image X ]  &  [ Point Grid P ]
-                               |
-            +------------------+------------------+
-            |                                     |
-    (Augmentation T1)                     (Augmentation T2)
-            |                                     |
-            v                                     v
-   [ View 1: X1, P1 ]                    [ View 2: X2, P2 ]
-            |                                     |
-            v                                     v
-=========================             =========================
-|     Student SAM       |             |     Teacher SAM       |
-|    (Params: \theta)   | <--(EMA)--- |     (Params: \phi)    |
-|-----------------------|             |-----------------------|
-| 1. Image Enc (E_I)    |             | 1. Image Enc (E_I)    |
-| 2. Prompt Enc (E_P)   |             | 2. Prompt Enc (E_P)   |
-| 3. Mask Dec (D_M)     |             | 3. Mask Dec (D_M)     |
-=========================             =========================
-            |                                     |
-      +-----+-----+                         +-----+-----+
-      |           |                         |           |
-      v           v                         v           v
-  [Logits p_s] [Embed z_s]              [Logits p_t] [Embed z_t]
-      |           |                         |           |
-      |           |                         |           +-----> [ Memory Queue K ]
-      |           |                         |                           |
-      |           +-------------------------|---------------------------+
-      |                                     |                           |
-      |   +-----------------------------+   |   +-------------------+   |
-      +-> | L_DINO (Self-Distillation)  | <-+   | L_MoCo (InfoNCE)  | <-+
-          |      (w/ Centering)         |       |                   |
-          +-----------------------------+       +-------------------+
-                         |                                |
-                         +---------------+----------------+
-                                         |
-                                         v
-                             [ Total Objective L ]
-                                         |
-                                         v
-                            (Update \theta via Gradient)
+
+**MAE (Masked Autoencoder)**
+![[Pasted image 20260427165208.png|500]]
+
+![[Pasted image 20260427171003.png|500]]
+
+'눈에 보이는 부분만 학습하여 주변부를 추정한다'
+원본 이미지를 patch단위로 잘라 준 후, 대략 70~80%의 patch를 날려 버린 후(마스크 처리) 살아있는 부분만 encoder에 입력(position embedding, ViT모델 기반)-> encoder에서 나온 token들에 대해, 기존 마스크 된 부분들에 대 한 'mask token' (learnable token)을 삽입한 후, decoder (encoder 대비 가벼운 형태)에 넣어서 기존 이미지 복원
+
+원본데이터를 많이 가리면(정보가 적으면) 모델이 학습을 제대로 못할거라는 고정관념을 깨버린 모델. tight한 상황을 모델에게 제공하여 학습을 강하게.
