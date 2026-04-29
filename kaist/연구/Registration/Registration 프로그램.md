@@ -29,6 +29,33 @@ initialposeestimation에서 load registered txf ->final smoothing
 
 calibration폴더 내 InitialTxf, InitialTxf_Smoothed 생성
 Txfmats/fem or tib 폴더 내 결과 파일
+# marker pose generator
+입력 파일
+1. **`result_coeff_20221115.mat`** — 마커 포즈 캘리브레이션 데이터 (`result_coeff`, `regress_vec`)
+2. **`exp_results.mat`** — source/detector 상대 포즈 (마커 기준)
+3. **`Timestamps.mat`** — 각 채널의 이미지 타임스탬프 (`Ch0TimeStamp`, `Ch1TimeStamp`)
+4. **`forSaveExperimentDataXYstage.txt`** — XY 스테이지 엔코더 데이터
+5. **`forSaveExperimentDataPenTilt.txt`** — Pan/Tilt 스테이지 엔코더 데이터
+6. X-ray 이미지 (`C1-xxx.tiff`, `C2-xxx.tiff`)
+
+## 출력 파일
+
+ 출력은 **DPMat** 입니다:
+
+- **`DPMat1.mat`** — `PMat` (3×4×N projection matrix)와 `Dist` (source-detector 거리)
+- **`DPMat2.mat`** — 동일 구조
+
+## 두 카메라 각각의 포즈?
+
+정확히는 **두 카메라(biplane fluoroscopy)의 projection matrix**입니다.
+
+- `detector(1)` + `source(2)` → 카메라 1 (DPMat1): source(2)에서 detector(1)으로의 projection
+- `detector(2)` + `source(1)` → 카메라 2 (DPMat2): source(1)에서 detector(2)으로의 projection
+
+각 프레임마다 엔코더 데이터로부터 마커 위치를 예측하고, 마커 위치로부터 source/detector의 4×4 변환행렬(`.M`)을 구한 뒤, 이를 3×4 projection matrix(`PMat`)로 변환하여 저장합니다. 즉, **두 X-ray 소스-디텍터 쌍 각각의 프레임별 포즈(projection geometry)**를 나타내는 것이 맞습니다.
+
+
+
 
 
 # Optimization 원리
