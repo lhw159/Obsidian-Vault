@@ -1,7 +1,6 @@
 # 1. Introduction
 발목은 일상에서 중요한 역할(가장 큰 하중 버티기)=> 발목 안정성및 구동성 확보를 위한 수술이 많음=>하지만 이런 수술의 실 영향을 파악하기 위한 기법은 부족한 상황=> marker set 기반 방식은 뼈에 직접 닿지 않는 마커로 인해 오차가 발생할 수 밖에 없고, 다른 정성적 방식은 정량적인 정보가 부족=> x-ray이미지를 통한 kinematics를 보고자 하니, 한 방향의 x-ray로는 부족=> 두 방향 x-ray 선을 이용하여 
 # 2. Multi-frame feature-based 2D/3D pose estimation
-anatomical system 물어보기
 
 ==**Feature Extraction**==
 ![[Pasted image 20260513122352.png|500]]
@@ -35,6 +34,8 @@ DeepLabCut network => drr 스타일 x-ray 이미지에서 뼈의 characteristic 
 
 ==**2.2.1 Statistical pose model**==
 statistical mean anatomical coordinate system (smacs)
+ipc를 통해 뼈의 형상들이 최ㅐ한 겹치게 모은 다음, 각 뼈들의 ACS (anatomical coordinate system)을 평균내서 사용
+
 
 ==**2.2.2 Statistical pose model creation using principal component analysis of joint vectors**==
 1. **대상 뼈와 관절 정의**
@@ -92,18 +93,103 @@ statistical mean anatomical coordinate system (smacs)
 
 
 ==**2.3.2 Multi-frame optimization using B-spline method**==
+#### 단일 프레임 최적화의 한계
 
+- s개의 프레임을 촬영했을 때, 단일 프레임 최적화 방식은 각 프레임마다 **18개의 변수**가 필요 → 총 변수 수 = 18×s.
+- 프레임 수가 늘어나면 변수 수가 선형적으로 증가.
+- 프레임 간 제약이 없어 결과가 **불연속적이고 매끄럽지 않으며**, 이상치(outlier)가 포함될 수 있음.
+- **smoothness**와 **2차 미분 가능성(second-order differentiability)**을 보장할 수 없음.
 
+#### B-spline 기반 multi-frame 최적화
+- **방법**: 발 뼈 운동학을 각 프레임마다 직접 계산하는 대신, **B-spline 곡선의 제어점(control point)**을 최적화하여 전체 프레임의 운동학을 표현.
 
+- **식 (2.16)**: Quaternion 기반 B-spline 곡선 정의.
+    - 회전은 quaternion으로 표현되며, B-spline basis function과 제어점 quaternion을 곱해 곡선을 구성.
+    - 이를 통해 stance phase 전체에서 회전이 매끄럽게 이어짐.
 
+- **식 (2.17)**: Multi-frame 최적화 흐름을 나타내는 flow chart.
+    - 입력: bi-plane X-ray 영상
+    - 과정: segmentation → registration → B-spline 기반 multi-frame fitting
+    - 출력: 매끄럽고 안정적인 foot bone kinematics.
 
+#### 변수 수 비교
+- **단일 프레임 최적화**:
+    - 총 변수 수 = 18×s.
+
+- **Multi-frame 최적화 (B-spline)**:
+    - 제어점 13개 사용.
+    - 각 제어점마다 18개의 변수를 가짐.
+    - 총 변수 수 = 18×13=234.
+    - 프레임 수와 무관하게 일정한 변수 수로 전체 프레임을 최적화 가능.
+
+#### 핵심 요약
+- 단일 프레임 방식은 프레임 수에 따라 변수가 폭증하고, 결과가 매끄럽지 않음.
+- B-spline 기반 multi-frame 방식은 **제어점만 최적화**하여 전체 프레임을 표현 → 변수 수가 고정되고, 결과가 smooth + differentiable.
+- 본 연구에서는 **13개의 제어점**을 사용하여 multi-frame 최적화를 수행했으며, 총 **234개의 변수**로 발 뼈 운동학을 계산.
+- 식 (2.16)은 quaternion 기반 B-spline 곡선을 정의하고, 식 (2.17)은 최적화 과정의 흐름을 도식화하여 multi-frame 구조를 설명.
+
+**B-spline 곡선을 통해 발 뼈 운동학을 multi-frame으로 최적화하여 변수 수를 줄이고, 매끄럽고 안정적인 결과를 얻는 방법을 제시하며, 이를 quaternion 기반 곡선(식 2.16)과 최적화 flow chart(식 2.17)로 구체화**
+
+==**2.3.3 Bone feature based multi-frame 2D/3D registration of foot bone skeleton**==
+#### 각 방법의 특성
+- **Feature point 기반 2D/3D registration (단일 프레임)**
+    - 장점: 계산 속도 빠름, 수렴 속도 빠름
+    - 단점: 정확도가 낮음
+
+- **Feature area 기반 2D/3D registration (단일 프레임)**
+    - 장점: 중간 수준 계산 속도, 빠른 수렴, 넓은 최적화 경계
+    - 단점: multi-frame 적용 시 매끄럽지 않고 outlier 발생 (프레임 간 제약 없음)
+
+- **Multi-frame feature area 기반 2D/3D registration (B-spline 곡선 적용)**
+    - 장점: 높은 정확도, 매끄러움(smoothness), 2차 미분 가능성 보장
+    - 단점: 계산 속도 느림, 수렴 속도 느림
+
+#### 제안된 최적화 절차 (순차적 적용)
+
+1. **Feature point 기반 단일 프레임 registration**
+    - 빠른 계산을 위해 먼저 수행.
+    - 결과는 정확도가 낮지만 초기값으로 활용.
+
+2. **Feature area 기반 단일 프레임 registration**
+    - 1단계 결과를 초기값으로 사용.
+    - 정확도를 높이고 최적화 경계를 좁힘.
+
+3. **Multi-frame feature area 기반 registration (B-spline 적용)**
+    - 2단계 결과를 초기값으로 사용.
+    - 프레임 간 smoothness와 2차 미분 가능성을 확보.
+    - 단일 프레임 방식의 outlier 문제 해결.
+    - 초기값이 정확하므로 multi-frame 최적화의 느린 수렴 문제를 보완.
+
+#### 검증 과정
+- **데이터**: 정상 피험자 5명의 발 뼈 X-ray 영상 (bi-plane fluoroscopy system으로 연속 촬영).
+- **Ground truth**: 숙련된 기술자가 수행한 2D/3D registration 결과.
+- **Proposed method 결과**: feature 기반 multi-frame registration으로 계산된 운동학.
+- **Error 계산**:
+    - Rotation error → ground truth와 approximate orientation의 quaternion 차이를 axis-angle로 변환 후 angle 크기.
+    - Translation error → ground truth와 approximate position의 Euclidean distance.
+    - RMS error → 각 프레임별 error를 모아 root mean square로 계산.
+
+==**Disscusion**==
+When bone shape is close to spherical symmetry, projected area variation due to orientation change of the bone decreases.
 
 # 3. Multi-frame inensity-based 2D/3D pose registration
+==**Purpose**==
+기존의 frame by frame 방식은 실제 사람의 모션의 continuity와 미분가능성(속도/가속도 계산)을 보장하지 못함=> B-spline을 통한 multi-frame 최적화를 진행하여 위 2가지 특성 확보
+==**Multi-frame intensity-based 3D pose estimation**==
+
+==**d**==
+==**d**==
+==**d**==
+==**d**==
+==**d**==
 # 4. Joint kinematic analysis of symptomatic foot during walking
 # 5. Conclusion
 # My thought
 Intro
 ~~
 **chapter 2**
+모델 학습(feature point 추출/마스킹)은 drr을 통해 한건지
 1:17로 나눠서 하는건 모든 피험자에 대한 model에 statistical mean anatomical coordinate system을 부여하기 위함인가?
-수동 pca 이후 이걸 다시 initial pose 추정에 사용? data leakage 문제가 있지 않나
+수동 pca 이후 이걸 다시 initial pose 추정에 사용? data leakage 문제가 있지 않나?
+B-spline 방식으로 최종 최적화는 어떻게 진행하는건지
+[오차 계산법 생각해봐야할듯]
