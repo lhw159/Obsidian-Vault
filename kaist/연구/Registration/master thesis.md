@@ -1,4 +1,13 @@
 # 1. Introduction
+거종 골 결합증 완화 및 관절 운동성 재건 위한 발목 거골-종골 융합부 절제술(resection of the talocalcaneal coalition), 만성 발목 불안정성 해결을 위한 변형 brostrom 술식. 앞선 수술 법들의 효과를 분석하는 연구들은 한계(마커셋 사용, 고정자세
+만 이용, 단일 관절 운동 영향)가 있음
+
+해당 연구에선 두 방향 엑스선 영상 장비를 통해 위 두 수술 환자군에 대한 운동학 계산 및 수술 전후 관절 운동을 비교하여, 각 수술이 관절 운동에 미치는 영향 파악. 알고리즘 개발을 위해
+
+1. feature based initial pose estimation
+2. 골격 운동 자유도 제약 및 프레임 간 위치 변화 제약을 통한 정확성 향상, 최적화 시간 감소
+3. 수동 정합 (manual registration)과의 비교를 통해 검증
+
 발목은 일상에서 중요한 역할(가장 큰 하중 버티기)=> 발목 안정성및 구동성 확보를 위한 수술이 많음=>하지만 이런 수술의 실 영향을 파악하기 위한 기법은 부족한 상황=> marker set 기반 방식은 뼈에 직접 닿지 않는 마커로 인해 오차가 발생할 수 밖에 없고, 다른 정성적 방식은 정량적인 정보가 부족=> x-ray이미지를 통한 kinematics를 보고자 하니, 한 방향의 x-ray로는 부족=> 두 방향 x-ray 선을 이용하여 
 # 2. Multi-frame feature-based 2D/3D pose estimation
 
@@ -34,7 +43,7 @@ DeepLabCut network => drr 스타일 x-ray 이미지에서 뼈의 characteristic 
 
 ==**2.2.1 Statistical pose model**==
 statistical mean anatomical coordinate system (smacs)
-ipc를 통해 뼈의 형상들이 최ㅐ한 겹치게 모은 다음, 각 뼈들의 ACS (anatomical coordinate system)을 평균내서 사용
+icp를 통해 뼈의 형상들이 최ㅐ한 겹치게 모은 다음, 각 뼈들의 ACS (anatomical coordinate system)을 평균내서 사용
 
 
 ==**2.2.2 Statistical pose model creation using principal component analysis of joint vectors**==
@@ -101,7 +110,7 @@ ipc를 통해 뼈의 형상들이 최ㅐ한 겹치게 모은 다음, 각 뼈들�
 - **smoothness**와 **2차 미분 가능성(second-order differentiability)**을 보장할 수 없음.
 
 #### B-spline 기반 multi-frame 최적화
-- **방법**: 발 뼈 운동학을 각 프레임마다 직접 계산하는 대신, **B-spline 곡선의 제어점(control point)**을 최적화하여 전체 프레임의 운동학을 표현.
+- **방법**: 발 뼈 운동학을 각 프레임마다 직접 계산하는 대신, **B-spline 곡선의 제어점(control point)** 을 최적화하여 전체 프레임의 운동학을 표현. 2개의 spline 활용 => translation curve, quaternion spline curve.
 
 - **식 (2.16)**: Quaternion 기반 B-spline 곡선 정의.
     - 회전은 quaternion으로 표현되며, B-spline basis function과 제어점 quaternion을 곱해 곡선을 구성.
@@ -129,6 +138,7 @@ ipc를 통해 뼈의 형상들이 최ㅐ한 겹치게 모은 다음, 각 뼈들�
 - 식 (2.16)은 quaternion 기반 B-spline 곡선을 정의하고, 식 (2.17)은 최적화 과정의 흐름을 도식화하여 multi-frame 구조를 설명.
 
 **B-spline 곡선을 통해 발 뼈 운동학을 multi-frame으로 최적화하여 변수 수를 줄이고, 매끄럽고 안정적인 결과를 얻는 방법을 제시하며, 이를 quaternion 기반 곡선(식 2.16)과 최적화 flow chart(식 2.17)로 구체화**
+
 
 ==**2.3.3 Bone feature based multi-frame 2D/3D registration of foot bone skeleton**==
 #### 각 방법의 특성
@@ -176,6 +186,15 @@ When bone shape is close to spherical symmetry, projected area variation due to 
 ==**Purpose**==
 기존의 frame by frame 방식은 실제 사람의 모션의 continuity와 미분가능성(속도/가속도 계산)을 보장하지 못함=> B-spline을 통한 multi-frame 최적화를 진행하여 위 2가지 특성 확보
 ==**Multi-frame intensity-based 3D pose estimation**==
+![[Pasted image 20260514111836.png|697]]
+전체 이미지 비교를 통해 loss 계산
+
+시리얼하게 b-spline 적용=>knot을 (5개->11개로 증가시키며)
+
+SSIM을 통해 LOSS 계산
+
+surrogate optimization을 통해 효율화 (time consuming cost function evaluation?)
+Surrogate optimization method is an optimization method that is effective on the problems with time consuming cost function evaluation [20, 21].
 
 ==**d**==
 ==**d**==
@@ -183,13 +202,49 @@ When bone shape is close to spherical symmetry, projected area variation due to 
 ==**d**==
 ==**d**==
 # 4. Joint kinematic analysis of symptomatic foot during walking
+
+==**4.1.1 Talocalcaneal coalition and coalition resection**==
+talus와 calcaneous가 서로 붙어버는 Talocalcaneal coalition=> 발목의 운동 제한이 생기고, 평발을 유발함=> 절제술(resection)을 통해 완화
+본 연구의 bpf 기술을 통해 **발목관절, 거종골관절(subtalar), 경종골관절(tibiocalcaneal)** 의 6자유도 운동을 플로팅하고, 보행 단계별 Range of motion (ROM)을 분석
+
+==**4.1.2 Chronic lateral ankle instability and Modified Broström Operation (MBO)**==
+가장 흔한 손상 인대: 전거비인대(ATFL), 심한 경우 종비인대(CFL)도 함께 손상.=>Modified Broström Operation (MBO)를 통한 보강 술식=> 기존 연구는 정적 자세만 비교하거나, 환자/정상군 비교만 시행
+본 연구에선 bpf 기술을 통해 6자유도 운동학을 수술 전/후 비교, 각 관절 운동 범위 계산
+
+==**4.2.1 Population distribution and data acquisition of coalition patients**==
+ROM의 경우 Mann-Whitney U-test를 통해 분석
 # 5. Conclusion
 # My thought
 Intro
 ~~
 **chapter 2**
-모델 학습(feature point 추출/마스킹)은 drr을 통해 한건지
+모델 학습(feature point 추출/마스킹)은 drr을 통해 한건지 
+=>맞음
+
 1:17로 나눠서 하는건 모든 피험자에 대한 model에 statistical mean anatomical coordinate system을 부여하기 위함인가?
+=> 모든 피험자에 대한 일반전인 좌표계 형성->추후 다른 피험자가 들어와도 동일 좌표계를 사용함으로서 분석에 일반화된 기준을 적용
+
 수동 pca 이후 이걸 다시 initial pose 추정에 사용? data leakage 문제가 있지 않나?
-B-spline 방식으로 최종 최적화는 어떻게 진행하는건지
-[오차 계산법 생각해봐야할듯]
+=>이미 정합된 데이터 있었음
+
+B-spline 방식으로 최종 최적화는 어떻게 진행하는건지=>surogate
+[오차 계산법 (어떤 최적화 메트릭을 쓸지, 어떤 loss를 쓸지) 생각해봐야할듯]
+
+
+**chapter 3**
+무릎 관절 모션 분석 (intensity 기반 정합)
+Ohnishi, T [43] et al proposed a knee joint motion study analyzed by bi-plane X-ray images and intensity-based 2D/3D registration. 
+
+intensity 기반 다양한 metric들
+Penney, Graeme P., et al suggested various methods such as [pattern intensity, normalized cross correlation, entropy difference, mutual information, gradient correlation, and gradient difference.] [18]
+
+SSIM (structural similarity index measure) (이건 3D 형상 제작에 사용하는 SSIM과 다른거)
+Wang, Zhou, et al suggested image difference scoring index named structural similarity index measure (SSIM), based on the degradation of structural information [19]
+![[Pasted image 20260514105511.png|500]]
+chapter 4
+ct volume 얻는 과정?
+CT volume data were segmented by skilled technicians to obtain the bone surface model and bone intensity model.
+
+
+
+3D 이미지???
