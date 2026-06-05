@@ -193,11 +193,12 @@ Section 3 전체의 흐름을 한 문장으로 정리하면 다음과 같습니�
 **검토 결과:** 모든 LaTeX 문법 및 **bold** 문법 직후 한글이 오는 경우 공백 삽입을 완료하였습니다. (예: $\beta_{i}$ 를, $N$ 의, **평면(Planar) 케이스** 를 등)
 # 4. Efficient Gauss-Newton Optimization
 
-|**구분**|**Section 3 (Initial Solution)**|**Section 4 (Gauss-Newton Refinement)**|
-|---|---|---|
-|**수학적 도구**|**선형 대수 (Linear Algebra)**|**비선형 최적화 (Non-linear Optimization)**|
-|**핵심 기법**|**선형화 (Linearization)**: 이차항($\beta_{ij}$ )을 독립 변수로 치환하여 '한 번에' 풂.|**미분 (Jacobian)**: 실제 $\beta$ 에 대해 미분하며 '조금씩' 정답으로 다가감.|
-|**계산 방식**|비반복적 (Non-iterative)|반복적 (Iterative)|
-|**역할**|정답이 있을 만한 구역을 **광속으로 찾아냄.**|찾아낸 구역 안에서 **가장 정확한 지점으로 수렴함.**|
+| **구분**     | **Section 3 (Initial Solution)**                                   | **Section 4 (Gauss-Newton Refinement)**                 |
+| ---------- | ------------------------------------------------------------------ | ------------------------------------------------------- |
+| **수학적 도구** | **선형 대수 (Linear Algebra)**                                         | **비선형 최적화 (Non-linear Optimization)**                   |
+| **핵심 기법**  | **선형화 (Linearization)**: 이차항($\beta_{ij}$ )을 독립 변수로 치환하여 '한 번에' 풂. | **미분 (Jacobian)**: 실제 $\beta$ 에 대해 미분하며 '조금씩' 정답으로 다가감. |
+| **계산 방식**  | 비반복적 (Non-iterative)                                               | 반복적 (Iterative)                                         |
+| **역할**     | 정답이 있을 만한 구역을 **광속으로 찾아냄.**                                        | 찾아낸 구역 안에서 **가장 정확한 지점으로 수렴함.**                         |
+|            |                                                                    |                                                         |
 # 5. Result
 # 6. Conclusion
