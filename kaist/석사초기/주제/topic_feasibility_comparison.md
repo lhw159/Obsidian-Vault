@@ -10,14 +10,14 @@ Condylar contact point (CP) analysis is fundamentally a geometry-based operation
 
 The literature strongly supports this approach. Studies using biplane X-ray imaging combined with CT- or MRI-derived bone models compute CP locations throughout the gait cycle without any GRF input [1] [2] [3]. The method reduces to projecting the femoral condylar geometry onto the tibial plateau surface at each tracked pose [4]. Cartilage contact regions and thickness distributions have been mapped across six functional activities — including downhill walking — using exactly this pipeline [3]. Even early single-plane fluoroscopy studies determined medial and lateral condylar contact paths and lift-off solely from shape-matching kinematics [5] [6]. A comprehensive review of fluoroscopy in osteoarthritis confirmed that cartilage-to-cartilage contact locations during gait are estimated entirely from kinematics-derived bone positions [7]. Slip velocity, which combines CP location with joint angular velocity, has similarly been calculated for 75 TKA patients across five activities using only 6-DOF kinematics [2].
 
-| Paper | Method | Force data required? | Population |
-|---|---|---|---|
-| Guan et al. 2017 [1] | Biplane fluoroscopy + CT; CP on Z-axis of tibia | No | TKA, overground/treadmill |
-| Chen et al. 2016 [4] | Fluoroscopy; closest-point on opponent surface | No | TKA |
-| Dennis et al. 2003 [5] [6] | Single-plane fluoroscopy; shape matching | No | TKA (PS and CR) |
-| Thomeer et al. [3] | Biplane X-ray + MRI; contact regions + thickness | No | Healthy, 6 activities incl. downhill |
-| Guan et al. 2024 [2] | Mobile biplane X-ray; CP + slip velocity | No | TKA, 5 activities |
-| Dur et al. 2024 [7] | Fluoroscopy review; cartilage contact in OA | No | OA, gait |
+| Paper                      | Method                                           | Force data required? | Population                           |
+| -------------------------- | ------------------------------------------------ | -------------------- | ------------------------------------ |
+| Guan et al. 2017 [1]       | Biplane fluoroscopy + CT; CP on Z-axis of tibia  | No                   | TKA, overground/treadmill            |
+| Chen et al. 2016 [4]       | Fluoroscopy; closest-point on opponent surface   | No                   | TKA                                  |
+| Dennis et al. 2003 [5] [6] | Single-plane fluoroscopy; shape matching         | No                   | TKA (PS and CR)                      |
+| Thomeer et al. [3]         | Biplane X-ray + MRI; contact regions + thickness | No                   | Healthy, 6 activities incl. downhill |
+| Guan et al. 2024 [2]       | Mobile biplane X-ray; CP + slip velocity         | No                   | TKA, 5 activities                    |
+| Dur et al. 2024 [7]        | Fluoroscopy review; cartilage contact in OA      | No                   | OA, gait                             |
 
 **Novelty for HTO cohort:** virtually all CP literature focuses on TKA or healthy knees. Applying geometry-based CP analysis to native bone geometry in HTO patients pre/post-operatively during both level and slope walking is highly novel, with slope walking essentially unstudied in this population.
 
