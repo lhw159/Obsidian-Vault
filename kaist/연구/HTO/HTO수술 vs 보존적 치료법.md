@@ -44,8 +44,44 @@ contact point의 경우 medial은 양쪽 다 차이 없고, lateral은 양쪽다
 
 
 **Knee contact forces**
+- **HTO 그룹**:
+    
+    - **걷기**: MCF(내측) 최대 –0.50 BW 감소, LCF(외측) 최대 +0.53 BW 증가.
+        
+    - **계단 오르기**: MCF –0.32 BW 감소, LCF +0.65 BW 증가.
+        
+    - **계단 내리기**: MCF –0.45 BW 감소, LCF +0.39 BW 증가.
+        
+    - 모든 활동에서 내측 하중이 유의하게 줄고 외측 하중이 늘어남.
+        
+- **보존적 치료 그룹**: KCF 변화 거의 없음. 일부 국소적 구간에서만 미세한 변화.
+![[Pasted image 20260709165225.png|500]]
 
 
+**Medial-to-Total Force Ratio (MFRatio)**
+- **HTO 그룹**:
+    
+    - 걷기: 내측 과부하 구간(>50%) 90% → 81%로 감소.
+        
+    - 계단 오르기: 68% → 48%로 감소.
+        
+    - 계단 내리기: 67% → 46%로 감소.
+        
+    - 즉, 모든 활동에서 내측 하중 비율이 유의하게 줄어듦.
+        
+- **보존적 치료 그룹**: 변화 없음.
+![[Pasted image 20260709170845.png|600]]
+
+**CorrelationsbetweenKCFsandPROMs**
+유의미한 관계 발견 못함 (약한 상관관계)
+
+
+# Disscusion
+![[Pasted image 20260709171929.png|600]]
+surgical group에선 MFRatio가 선명하게 줄어듦, 특히 stair descent에서
+
+MFRatio 감소가 가장 크게 나타난 건 힘이 상대적으로 작은 피크(계단 오르기의 두 번째 피크, 계단 내리기의 첫 번째 피크)
+![[Pasted image 20260709172822.png|500]]
 
 
 
