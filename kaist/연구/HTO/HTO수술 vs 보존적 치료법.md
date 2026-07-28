@@ -1,9 +1,13 @@
 
 # Method
 ## Personalised model parameters from radiographic and gait analysis data
-contatc point 분석을 위해, 서있는 자세 (full-weight bearing) 45도 flexion에 대한 radiograph 습득
-TFA was deﬁned as the angle between the mechanical axes of the femur and tibia, while medial and lateral CP locations were identiﬁed as the points with the minimum joint space width in the corresponding knee compartments [30, 32]
+contatc point 분석을 위해, 서있는 자세 (full-weight bearing), 45도 flexion에 대한 radiograph 습득
+**TFA** was deﬁned as the angle between the mechanical axes of the femur and tibia, while 
+**medial and lateral CP locations** were identiﬁed as the points with the minimum joint space width in the corresponding knee compartments [30, 32]
 ![[Pasted image 20260705234639.png|400]]
+
+## Musculoskeletal modelling and movement simulations
+18segments 92 muscculotendon actuator, fulll body model 사용 (simtk.org)
 
 ## Data processing and statistical analysis
 
@@ -89,3 +93,8 @@ Previous modelling studies have reported
 lateralisation of KCFs after HTO during walking [5, 9], 
 but no study has comprehensively analysed this 
 redistribution across multiple daily activities
+
+# Conclusion
+HTO effectively reduces medial overloading and redistributes KCFS btw the medial and lateral compartments during daily activities
+improvements in PROMs were evident, but their weak correlation with KCFs 
+patient-percieved recovery may reflect broaer functional adaptation beyond load redistribution alone
