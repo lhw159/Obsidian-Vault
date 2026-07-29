@@ -13,3 +13,13 @@ Therefore, during preparation for medial opening wedge HTO, careful preoperative
 
 본 연구의 목적은 HTO 수술에서 hinge axis의 위치가 PTS에 어떤 영향을 미치는지 알아내는 것
 internal vs external / proximalization extnesion vs distalizaiton-flexion 
+
+
+# Method
+## Patient
+10 adults with meidal knee osteroarthritis with varus tibiofemoral deformities
+computed tomography (CT) scanning of the affected lower extremity for preoperative planning purposes 수술전 CT
+standing hip-to-ankle anteroposterior (AP) radiograph 
+
+## Preoperative Planning
+AP raiograph 상에 맞춰 CT 정합
