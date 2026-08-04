@@ -356,3 +356,5 @@ By advancing the methods for establishing anatomical coordinate systems in this 
 [38]S. Vafadar, W. Skalli, A. Bonnet-Lebrun, A. Assi, and L. Gajny, “Assessment of a novel deep learning-based marker-less motion capture system for gait study.,” Gait & Posture, vol. 94, pp. 138–143, Mar. 2022, doi: 10.1016/j.gaitpost.2022.03.008.
 
 [39]R. M. Kanko, E. K. Laende, E. M. Davis, W. S. Selbie, and K. J. Deluzio, “Concurrent assessment of gait kinematics using marker-based and markerless motion capture,” bioRxiv, Dec. 2020, doi: 10.1101/2020.12.10.420075.
+
+a
