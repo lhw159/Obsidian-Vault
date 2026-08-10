@@ -1,0 +1,1 @@
+PTS significantly affect knee stability and kinematics.[6,7]

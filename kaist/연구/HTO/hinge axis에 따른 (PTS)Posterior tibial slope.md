@@ -17,9 +17,31 @@ internal vs external / proximalization extnesion vs distalizaiton-flexion
 
 # Method
 ## Patient
-10 adults with meidal knee osteroarthritis with varus tibiofemoral deformities
+10 adults(4 men, 6 women) with meidal knee osteroarthritis with varus tibiofemoral deformities
 computed tomography (CT) scanning of the affected lower extremity for preoperative planning purposes 수술전 CT
 standing hip-to-ankle anteroposterior (AP) radiograph 
 
 ## Preoperative Planning
+Bodycad Osteotomy software를 사용해서 진행
 AP raiograph 상에 맞춰 CT 정합
+lateral hinge axis was parallel to the AP line
+![[Pasted image 20260730005733.png]]
+true lateral hinge position. 제일 medial 쪽에서  10mm의 gap
+15 mm below the lateral tibial plateau and 10 mm medialto the lateral tibial cortex
+
+
+hinge axis는 5,10,15,20도 회전, 선의 중심점 기준으로 회전
+![[Pasted image 20260730005516.png|400]]
+internal/lateral
+![[Pasted image 20260730005535.png]]
+proximalized extended / distalized-flexed
+
+lateral bonewaskept intact (uncut) torepresent the hinge.
+
+## Statistics
+p-value, $R^2$ 
+
+# Results
+rotating the hinge axis by 9.0 externally would result in increasing the tibial slope by 1. Alternatively, decreasing the tibial slope by 1 could be obtained by rotating the hinge axis by 8.7 internally.
+Tibial slope을 1도 늘릴려면 external로 9도, 1도 내릴려면 internal로 8.7도
+![[Pasted image 20260730014228.png]]
