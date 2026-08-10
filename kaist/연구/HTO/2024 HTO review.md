@@ -1,3 +1,4 @@
+patient selection, pre-operative planning, surgical accuracy and patient outcome
 # Intro
 Medial comparment OA는 Tibiofemoral OA에서 가장 흔한 증상 (27%) [2]
 arthroplasty surgery (관절술) vs osteotomy surgery (정형술)
