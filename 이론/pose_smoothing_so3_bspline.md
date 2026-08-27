@@ -204,3 +204,42 @@ uv run python scripts/knee_kinematics.py     --trial "$TR" --pose bspline --fps 
 - M.-J. Kim, M.-S. Kim, S. Shin, "A general construction scheme for unit quaternion curves
   with simple high order derivatives," *SIGGRAPH* 1995. (SO(3) cumulative B-spline)
 - F. Park, B. Ravani, "Smooth invariant interpolation of rotations," *ACM TOG* 16 (1997). (log/exp 회전 곡선)
+
+
+
+
+
+
+
+1. 곡선을 제어점의 식으로 쓰면
+$$S(x) = \sum_j c_j , N_j(x)$$
+
+$N_j$ = basis 함수(knot이 정한 뼈대, 고정), $c_j$ = 제어점(미지수).
+데이터 프레임 $x_i$에서 곡선값 = $\sum_j c_j N_j(x_i)$. 이걸 행렬로 $S = Bc$ ($B_{ij}=N_j(x_i)$, "각 프레임에서 각 basis 값").
+
+2. 풀 목적함수 (fit + 매끄러움)
+$$\min_c \underbrace{|y - Bc|^2}{\text{데이터에 가깝게}} + \lambda \underbrace{c^\top \Omega c}{\text{매끄럽게}(\int S''^2)}$$
+
+$y$ = 실제 pose값들, $\Omega$ = 곡률 penalty 행렬(knot/basis만으로 결정, 데이터 무관).
+
+3. 미분해서 0 → 선형방정식
+$$\boxed{,(B^\top B + \lambda,\Omega),c = B^\top y,}\quad\Rightarrow\quad c = (B^\top B + \lambda\Omega)^{-1} B^\top y$$
+
+닫힌형(closed-form), 반복 없이 한 번에 풀려요.
+$c$ = 데이터 $y$를 "매끄럽게 섞은" 값 ($B^\top y$로 데이터 반영, $\lambda\Omega$로 매끄러움 규제).
+
+4. 직관 (λ 역할이 여기서 보임)
+λ=0: $c=(B^\top B)^{-1}B^\top y$ = 순수 최소제곱 → 데이터 바짝 따라감(구불).
+λ 큼: penalty가 지배 → 이웃 제어점끼리 서로 당겨 붙음(곡률 억제) → 매끈.
+즉 제어점 = "데이터에 끌리는 힘"과 "이웃과 매끄럽게 있으려는 힘"의 균형점을 방정식으로 찾은 것.
+
+5. outlier·robust와 연결
+목적함수에 가중치 $w_i$를 넣으면 $|W^{1/2}(y-Bc)|^2$ → 방정식이 $(B^\top W B + \lambda\Omega)c = B^\top W y$.
+
+**outlier에 $w_i=0$**을 주면(우리 robust 제거) → 그 프레임이 $B^\top W y$에 안 들어감 → 제어점이 outlier에 안 끌림.
+이게 "robust 제거 = fit에서 빼기"의 수학적 정체예요.
+한 줄 요약
+제어점 = $(B^\top B + \lambda\Omega)^{-1}B^\top y$ — 데이터+매끄러움을 균형 맞춘 선형해.
+raw pose 복사 ❌, fit되어 나오는 계수 ⭕.
+λ로 매끄러움, **가중치 $w$**로 outlier 배제.
+즉 "제어점을 어떻게 얻나?" = 위 선형방정식 한 번 풀면 나오고, 그 안에 이미 **smoothing(λ)과 outlier 제어(w)**가 다 들어있어요.
