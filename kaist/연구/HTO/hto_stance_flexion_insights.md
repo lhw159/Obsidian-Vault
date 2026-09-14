@@ -6,10 +6,10 @@ Patients with medial knee osteoarthritis commonly demonstrate reduced knee flexi
 
 ## Evidence of reduced flexion
 
-Patients with knee osteoarthritis frequently show diminished knee flexion excursion during the loading response (the early‑stance first flexion peak), and this has been documented in gait studies and modeling work. Reduced stance‑phase knee flexion has been observed directly in kinematic analyses and is associated with altered sagittal‑plane kinetics and reduced knee contact force at the first peak in subsets of patients [1] [2] [3].
+Patients with knee osteoarthritis frequently show diminished knee flexion excursion during the loading response (the early‑stance first flexion peak), and this has been documented in gait studies and modeling work. **Reduced stance‑phase knee flexion** has been observed directly in kinematic analyses and is associated with **altered sagittal‑plane kinetics** and **reduced knee contact force at the first peak in subsets of patients** [1] [2] [3].
 
 - **Kinematic evidence** Preoperative KOA cohorts showed reduced knee flexion movement in stance compared to controls in three‑dimensional gait studies [1].  
-- **Kinetic and contact‑force evidence** Reduced knee flexion excursion correlates with smaller peak knee flexion moments and with changes in knee adduction moment angular impulse, and a subgroup of KOA patients walk without the first knee contact‑force peak, indicating a blunted loading‑response pattern [2] [3].
+- **Kinetic and contact‑force evidence** Reduced knee flexion excursion correlates with smaller peak knee flexion moments and with changes in knee adduction moment angular impulse, and a subgroup of **KOA patients walk without the first knee contact‑force peak**, indicating a **blunted loading‑response pattern** [2] [3].
 
 ----
 
