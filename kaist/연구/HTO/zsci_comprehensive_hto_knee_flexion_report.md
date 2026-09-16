@@ -54,11 +54,11 @@ Patients with medial knee osteoarthritis consistently demonstrate reduced knee f
 
 **Table 1. Stance-Phase Knee Flexion ROM in OA vs. Controls (McCarthy et al. 2013)**
 
-| Group | Stance-Phase Flexion ROM (°) | Swing-Phase Flexion ROM (°) |
-|-------|------------------------------|------------------------------|
-| Healthy controls (n=21) | 18.0 ± 4.0 | 61.2 ± 6.1 |
-| Knee OA patients (n=23) | 10.3 ± 4.0 | 54.8 ± 5.5 |
-| **Reduction** | **7.7° (p < 0.001)** | **6.4° (p = 0.003)** |
+| Group                   | Stance-Phase Flexion ROM (°) | Swing-Phase Flexion ROM (°) |
+| ----------------------- | ---------------------------- | --------------------------- |
+| Healthy controls (n=21) | 18.0 ± 4.0                   | 61.2 ± 6.1                  |
+| Knee OA patients (n=23) | 10.3 ± 4.0                   | 54.8 ± 5.5                  |
+| **Reduction**           | **7.7° (p < 0.001)**         | **6.4° (p = 0.003)**        |
 
 These values represent total stance-phase ROM, not loading-response excursion alone. However, the 7.7° reduction in stance ROM provides a quantitative benchmark for the magnitude of sagittal-plane deficit in knee OA [5].
 
@@ -90,7 +90,7 @@ These findings corroborate the stance-phase ROM reduction documented by McCarthy
 
 ### 4.1 Quadriceps Avoidance
 
-Quadriceps avoidance is a neuromuscular strategy characterized by altered muscle activation patterns and increased co-contraction that reduces knee flexion moment and limits sagittal-plane motion during loading response. This pattern has been documented in multiple knee pathologies, including OA, anterior cruciate ligament deficiency, and patellofemoral instability [10], [12], [15].
+Quadriceps avoidance is a neuromuscular strategy characterized by altered muscle activation patterns and increased co-contraction that **reduces knee flexion moment** and limits sagittal-plane motion during loading response. This pattern has been documented in multiple knee pathologies, including OA, anterior cruciate ligament deficiency, and patellofemoral instability [10], [12], [15].
 
 **Evidence in knee OA:**
 
@@ -126,7 +126,7 @@ Quadriceps weakness is prevalent in knee OA and contributes to reduced capacity 
 
 ### 4.4 Altered Loading Strategy
 
-Patients with medial knee OA adopt altered loading strategies that intentionally reduce medial compartment stress by shifting mechanical loading to the frontal plane and reducing sagittal-plane motion.
+Patients with medial knee OA adopt altered loading strategies that intentionally reduce medial compartment stress by shifting mechanical loading to the frontal plane and reducing sagittal-plane motion. 
 
 **Evidence:**
 
