@@ -1,6 +1,6 @@
 ## TL;DR
 
-Patients with medial knee osteoarthritis commonly demonstrate reduced knee flexion during the loading response. High tibial osteotomy reliably corrects coronal loading but reports conflict on whether early‑stance (first peak) knee flexion normalizes, with recovery linked to pain relief and muscle activation changes.
+Patients with medial knee osteoarthritis commonly demonstrate **reduced knee flexion** during the loading response. High tibial osteotomy reliably corrects coronal loading but **reports conflict on whether early‑stance (first peak) knee flexion normalizes**, with recovery linked to pain relief and muscle activation changes.
 
 ----
 
@@ -15,7 +15,7 @@ Patients with knee osteoarthritis frequently show diminished knee flexion excurs
 
 ## Proposed mechanisms
 
-Several non‑exclusive mechanisms have been proposed to explain the blunted early‑stance knee flexion in KOA; empirical studies in OA and related populations provide supporting data for each mechanism. The principal mechanisms are quadriceps avoidance (altered activation/co‑contraction), pain avoidance, quadriceps weakness, and altered joint‑loading strategies that intentionally change motion to reduce medial compartment load.
+Several non‑exclusive mechanisms have been proposed to explain the blunted early‑stance knee flexion in KOA; empirical studies in OA and related populations provide supporting data for each mechanism. The principal mechanisms are **quadriceps avoidance** (altered activation/co‑contraction), **pain avoidance**, **quadriceps weakness**, and **altered joint‑loading strategies** that intentionally change motion to reduce medial compartment load.
 
 - **Quadriceps avoidance or altered activation** Surface EMG and co‑contraction analyses show elevated quadriceps‑hamstring and quadriceps‑calf co‑contraction preoperatively in medial KOA, consistent with stiffened or avoidance patterns; these co‑contraction indices decreased after HTO in one EMG study, linking altered activation to the preoperative stiff/less‑flexed pattern [4].  
 - **Pain avoidance** Studies infer that gait adaptations that reduce early knee flexion may reflect attempts to minimize painful joint compressive or shear forces during loading response [2] [3].  
@@ -30,15 +30,15 @@ Evidence from other knee pathologies supports the concept of a quadriceps‑avoi
 
 The literature reports mixed outcomes on whether high tibial osteotomy restores the early‑stance knee flexion peak; study results differ by sample, follow‑up time, and measured variables. The table below summarizes representative studies reporting preoperative blunted flexion and the postoperative change.
 
-| Study and sample | Timing of follow‑up | Preoperative stance flexion finding | Postoperative result and key data |
-|---|---:|---|---|
-| Lind et al. (medial opening‑wedge HTO, n=11 males) [8] | 12 months | Maximum knee flexion in stance was reduced versus controls (P = 0.02) | Maximum knee flexion increased significantly after HTO (P = 0.005) and was equivalent to controls at 12 months [8] |
-| Whatling et al. (19 knees) [5] | ~12 months | Smaller sagittal knee range of motion during gait pre‑HTO versus controls | Frontal/transverse moments normalized but **sagittal‑plane reductions persisted** (smaller sagittal ROM remained post‑HTO, p = 0.003) [5] |
-| Vital da Silva et al. (21 patients) [9] | 6 months | OA patients showed higher knee flexion angles and altered sagittal mechanics preop | At 6 months HTO reduced coronal varus/adductor moment but produced **reduced knee extension** and increased extensor moment in stance (partial sagittal change) [9] |
-| Morin et al. (21 patients) [10] | 12 months | Altered time‑distance and knee kinematics preop | No significant change in time‑distance gait parameters before vs after HTO (no normalization of many gait parameters) [10] |
-| Bowd et al. (musculoskeletal modeling) [11] | post‑HTO follow‑up reported | Longer stance durations and KOA gait deviations preop | Patients spent longer in stance compared to controls and some temporal deviations persisted post‑HTO [11] |
-| De Pieri et al. (knee compressive loads) [12] | 12 months | Medial KOA with altered KAM preop | HTO redistributed compressive loads during walking (reduced medial loading) but study focused on load redistribution not direct flexion normalization [12] |
-| Open HTO EMG study (n=21) [4] | 6 and 12 months | Elevated preop co‑contraction indices and altered timing | Co‑contraction indices decreased and several muscles showed increased integrated EMG and earlier activation by 12 months, suggesting improved neuromuscular control that could support increased stance flexion [4] |
+| Study and sample                                       |         Timing of follow‑up | Preoperative stance flexion finding                                                | Postoperative result and key data                                                                                                                                                                                   |
+| ------------------------------------------------------ | --------------------------: | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lind et al. (medial opening‑wedge HTO, n=11 males) [8] |                   12 months | Maximum knee flexion in stance was reduced versus controls (P = 0.02)              | Maximum knee flexion increased significantly after HTO (P = 0.005) and was equivalent to controls at 12 months [8]                                                                                                  |
+| Whatling et al. (19 knees) [5]                         |                  ~12 months | Smaller sagittal knee range of motion during gait pre‑HTO versus controls          | Frontal/transverse moments normalized but **sagittal‑plane reductions persisted** (smaller sagittal ROM remained post‑HTO, p = 0.003) [5]                                                                           |
+| Vital da Silva et al. (21 patients) [9]                |                    6 months | OA patients showed higher knee flexion angles and altered sagittal mechanics preop | At 6 months HTO reduced coronal varus/adductor moment but produced **reduced knee extension** and increased extensor moment in stance (partial sagittal change) [9]                                                 |
+| Morin et al. (21 patients) [10]                        |                   12 months | Altered time‑distance and knee kinematics preop                                    | No significant change in time‑distance gait parameters before vs after HTO (no normalization of many gait parameters) [10]                                                                                          |
+| Bowd et al. (musculoskeletal modeling) [11]            | post‑HTO follow‑up reported | Longer stance durations and KOA gait deviations preop                              | Patients spent longer in stance compared to controls and some temporal deviations persisted post‑HTO [11]                                                                                                           |
+| De Pieri et al. (knee compressive loads) [12]          |                   12 months | Medial KOA with altered KAM preop                                                  | HTO redistributed compressive loads during walking (reduced medial loading) but study focused on load redistribution not direct flexion normalization [12]                                                          |
+| Open HTO EMG study (n=21) [4]                          |             6 and 12 months | Elevated preop co‑contraction indices and altered timing                           | Co‑contraction indices decreased and several muscles showed increased integrated EMG and earlier activation by 12 months, suggesting improved neuromuscular control that could support increased stance flexion [4] |
 
 Interpretation of these findings:
 - Some studies report a near‑complete restoration of stance‑phase maximum knee flexion after HTO at ~12 months [8].  
@@ -49,7 +49,7 @@ Interpretation of these findings:
 
 ## Practical conclusions and implications
 
-Postoperative outcomes indicate that HTO reliably corrects coronal alignment and medial loading, but recovery of the early‑stance knee flexion peak is inconsistent across studies and cohorts. Some patients regain normal stance‑phase flexion after HTO, while others retain a blunted or reduced sagittal motion pattern despite realignment [8] [5] [9] [10].
+Postoperative outcomes indicate that HTO reliably corrects coronal alignment and medial loading, **but recovery of the early‑stance knee flexion peak is inconsistent across studies and cohorts.** Some patients regain normal stance‑phase flexion after HTO, while others retain a blunted or reduced sagittal motion pattern despite realignment [8] [5] [9] [10].
 
 - **Mechanistic link** Improvements in muscle activation and reduced co‑contraction after HTO correlate with better sagittal mechanics in at least one study, suggesting targeted rehabilitation addressing quadriceps activation and coordination may help restore early‑stance flexion [4].  
 - **Clinical recommendation** Consider combined realignment and focused postoperative strategies (pain control, quadriceps strengthening, and neuromuscular retraining) when the goal includes restoring normal loading‑response knee flexion, because HTO alone reliably corrects coronal loads but does not uniformly normalize sagittal gait mechanics [5] [2] [4].
