@@ -1,3 +1,11 @@
+> [!warning] 이 문서는 폐기되었습니다 (2026-09-17)
+> PDF 원문 13편 전수 대조 결과 인용 오류·수치 오류·출처 왜곡이 다수 확인되었습니다.
+> 핵심 전제("OA에서 Δflexion 1–7°")가 유일한 실측 문헌값(Anan 2024, 11.5 ± 3.5°)에 의해 부정되며,
+> §8의 "Lind vs Whatling 상충 증거" 구도는 두 논문 모두 Δflexion을 측정하지 않았으므로 성립하지 않습니다.
+> **대체 문서 → [[HTO_stance_flexion_verified_report_v2]]** (오류 전체 목록은 그 문서 §11)
+
+---
+
 # Stance-Phase Knee Flexion in Medial Knee Osteoarthritis and High Tibial Osteotomy: A Comprehensive Evidence Review
 
 ## Executive Summary
